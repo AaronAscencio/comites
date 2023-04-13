@@ -27,9 +27,9 @@ class Persona(models.Model):
     codigo_postal = models.CharField(verbose_name='Codigo Postal', max_length= 5, blank=False,null=False)
     clave_electoral = models.CharField(max_length=18, unique=True,validators=[RegexValidator(r'^[a-zA-Z0-9 ]*$', 'SOLO SE PERMITEN NUMEROS Y LETRAS'),MaxLengthValidator(18, message='ESTE CAMPO DEBE TENER EXACTAMENTE 18 CARACTERES.')])
     curp = models.CharField(max_length=18, unique=True, validators=[RegexValidator(r'^[a-zA-Z0-9 ]*$', 'SOLO SE PERMITEN NUMEROS Y LETRAS'),MaxLengthValidator(18, message='ESTE CAMPO DEBE TENER EXACTAMENTE 18 CARACTERES.')])
-    correo_electronico = models.EmailField(verbose_name='Correo Electronico', max_length=150,blank=False,null=False)
-    facebook = models.CharField(verbose_name='Facebook', max_length= 150, blank=False,null=False)
-    twitter = models.CharField(verbose_name='Twitter', max_length= 150, blank=False,null=False)
+    correo_electronico = models.EmailField(verbose_name='Correo Electronico', max_length=150,blank=True,null=True)
+    facebook = models.CharField(verbose_name='Facebook', max_length= 150, blank=True,null=True)
+    twitter = models.CharField(verbose_name='Twitter', max_length= 150, blank=True,null=True)
 
     class Meta:
         verbose_name = 'Persona'
