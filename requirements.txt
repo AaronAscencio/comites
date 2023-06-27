@@ -6,3 +6,9 @@ Pillow==9.4.0
 psycopg2-binary==2.9.5
 sqlparse==0.4.3
 tzdata==2022.7
+
+
+admin
+p3nt3st1ngc0mit3s
+c0m1t3spwd
+c0m1t3spwd

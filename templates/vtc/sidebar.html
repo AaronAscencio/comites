@@ -47,22 +47,44 @@
                             <a href="{% url 'persona:persona_listview' %}" class="nav-link"> 
                                 <i class="fa fa-users mr-1" aria-hidden="true"></i>
                                 <p>
-                                    PERSONAS
+                                    COMITES
                                 </p>
                             </a>
                         </li>
                     {% endif %}
+                    
                     {% if  perms.persona.view_persona %}
                         <li class="nav-item">
                             <a href="." class="nav-link"> 
-                                <i class="fa fa-users mr-1" aria-hidden="true"></i>
+                                <i class="fa fa-signal" aria-hidden="true"></i>
                                 <p>
                                     REPORTES
                                 </p>
                             </a>
                         </li>
                     {% endif %}
-                
+
+                    {% if  perms.referente.view_referente %}
+                        <li class="nav-item">
+                            <a href="{% url 'referente:referente_listview' %}" class="nav-link"> 
+                                <i class="fa fa-link" aria-hidden="true"></i>
+                                <p>
+                                    REFERENTES
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+                    
+                    {% if  perms.folio.view_folio %}
+                        <li class="nav-item">
+                            <a href="{% url 'folio:folio_listview' %}" class="nav-link"> 
+                                <i class="fa fa-list-ol" aria-hidden="true"></i>
+                                <p>
+                                    FOLIOS
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
 
                 
             </ul>

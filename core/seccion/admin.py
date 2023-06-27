@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(Distrito)
 admin.site.register(Municipio)
 admin.site.register(Seccion)
+admin.site.register(Colonia)

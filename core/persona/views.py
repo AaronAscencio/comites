@@ -24,7 +24,7 @@ class PersonaListView(LoginRequiredMixin,ChangedPasswordMixin,ValidatePermission
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Personas'
+        context['title'] = 'Listado de Comites'
         context['create_url'] = reverse_lazy('persona:persona_createview')
         context['list_url'] = reverse_lazy('persona:persona_listview')
         context['entity'] = 'Persona'
@@ -53,7 +53,7 @@ class PersonaCreateView(LoginRequiredMixin,ChangedPasswordMixin,ValidatePermissi
     
     def get_context_data(self,**kwargs):
         context =  super().get_context_data(**kwargs)
-        context['title'] = 'Creacion de Persona'
+        context['title'] = 'Creacion de un Comite'
         context['entity'] = 'Persona'
         context['list_url'] = reverse_lazy('persona:persona_listview')
         context['action'] = 'add'
@@ -71,6 +71,7 @@ class PersonaCreateView(LoginRequiredMixin,ChangedPasswordMixin,ValidatePermissi
             if action == 'add':
                 form = self.get_form()
                 data = form.save()
+
             elif action == 'search_municipios':
                 data = []
                 id = request.POST['id']
@@ -79,6 +80,7 @@ class PersonaCreateView(LoginRequiredMixin,ChangedPasswordMixin,ValidatePermissi
                         'id':municipio.id,
                         'text':f'{municipio.nombre}'
                     })
+
             elif action == 'search_secciones':
                 data = []
                 id = request.POST['id']
@@ -86,7 +88,25 @@ class PersonaCreateView(LoginRequiredMixin,ChangedPasswordMixin,ValidatePermissi
                   data.append({
                         'id':seccion.id,
                         'text':f'{seccion.numero}'
-                    })  
+                    })
+                  
+            elif action == 'search_colonias':
+                data = []
+                id = request.POST['id']
+                for colonia in Colonia.objects.filter(seccion__pk = id):
+                  data.append({
+                        'id':colonia.id,
+                        'text':f'{colonia.tipo_de_colonia} - {colonia.nombre}'
+                    })
+
+            elif action == 'search_cp':
+                id = request.POST['id']
+                colonia = Colonia.objects.get(pk = id)
+                data['cp'] = colonia.cp if colonia.cp != '' else 'N/A'
+                
+
+
+
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
@@ -116,10 +136,19 @@ class PersonaUpdateView(LoginRequiredMixin,ChangedPasswordMixin,ValidatePermissi
             elif action == 'set_selects':
                 data['secciones'] = []
                 data['municipios'] = []
+                data['colonias'] = []
                 data['distrito_selected'] = self.object.seccion.municipio.distrito.pk
                 data['municipio_selected'] = self.object.seccion.municipio.pk
                 data['seccion_selected'] = self.object.seccion.pk
+                data['colonia_selected'] = self.object.colonia.pk
                 secciones = Seccion.objects.filter(municipio = self.object.seccion.municipio)
+                for colonia in Colonia.objects.filter(seccion = self.object.seccion):
+                    data['colonias'].append({
+                        'id':colonia.id,
+                        'text':f'{colonia.tipo_de_colonia} - {colonia.nombre}'
+                    })
+
+
                 for seccion in secciones:
                     data['secciones'].append({
                         'id':seccion.id,
@@ -146,7 +175,21 @@ class PersonaUpdateView(LoginRequiredMixin,ChangedPasswordMixin,ValidatePermissi
                   data.append({
                         'id':seccion.id,
                         'text':f'{seccion.numero}'
-                    })      
+                    })
+                  
+            elif action == 'search_colonias':
+                data = []
+                id = request.POST['id']
+                for colonia in Colonia.objects.filter(seccion__pk = id):
+                  data.append({
+                        'id':colonia.id,
+                        'text':f'{colonia.tipo_de_colonia} - {colonia.nombre}'
+                    })
+
+            elif action == 'search_cp':
+                id = request.POST['id']
+                colonia = Colonia.objects.get(pk = id)
+                data['cp'] = colonia.cp if colonia.cp != '' else 'N/A'
 
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
@@ -156,7 +199,7 @@ class PersonaUpdateView(LoginRequiredMixin,ChangedPasswordMixin,ValidatePermissi
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Edición de una Persona'
+        context['title'] = 'Edición de un Comite'
         context['entity'] = 'Persona'
         context['list_url'] = reverse_lazy('persona:persona_listview')
         context['action'] = 'edit'
@@ -182,7 +225,7 @@ class PersonaDeleteView(LoginRequiredMixin,ChangedPasswordMixin,ValidatePermissi
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Eliminación de una Persona'
+        context['title'] = 'Eliminación de un Comite'
         context['entity'] = 'Persona'
         context['list_url'] = reverse_lazy('persona:persona_listview')
         return context

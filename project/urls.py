@@ -24,7 +24,9 @@ urlpatterns = [
     path('',include('core.login.urls')),
     path('',include('core.dashboard.urls')),
     path('',include('core.seccion.urls')),
-    path('persona/',include('core.persona.urls'))
-]
+    path('persona/',include('core.persona.urls')),
+    path('referente/',include('core.referente.urls')),
+    path('folio/',include('core.folio.urls')),
+    ]
 
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)

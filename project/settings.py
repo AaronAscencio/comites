@@ -43,7 +43,11 @@ INSTALLED_APPS = [
     'core.persona.apps.PersonaConfig',
     'core.login.apps.LoginConfig',
     'core.dashboard.apps.DashboardConfig',
-    
+    'core.referente.apps.ReferenteConfig',
+    'core.folio.apps.FolioConfig',
+
+
+
     'widget_tweaks',
 
 ]

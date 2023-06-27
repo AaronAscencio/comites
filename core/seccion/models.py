@@ -17,7 +17,7 @@ class Distrito(models.Model):
     
 class Municipio(models.Model):
     distrito = models.ForeignKey(Distrito, on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=150,blank=False,null=False,unique=True)
+    nombre = models.CharField(max_length=150,blank=False,null=False)
     
     class Meta:
         verbose_name = 'Municipio'
@@ -46,4 +46,25 @@ class Seccion(models.Model):
         item = model_to_dict(self)
         item['municipio'] = self.municipio.toJSON()
         return item
+
+class Colonia(models.Model):
+    seccion = models.ForeignKey(Seccion, on_delete=models.CASCADE)
+    tipo_de_seccion = models.CharField(verbose_name='Tipo de Seccion',blank=False,null=False,max_length=150)
+    tipo_de_colonia = models.CharField(verbose_name='Tipo de Colonia',blank=False,null=False,max_length=150)
+    nombre = models.CharField(verbose_name='Nombre de la Colonia',blank=False,null=False,max_length=150)
+    cp = models.CharField(verbose_name='Codigo Postal',blank=True,null=True,max_length=5)
+
+    class Meta:
+        verbose_name = 'Colonia'
+        verbose_name_plural = 'Colonias'
+    
+    def __str__(self):
+        return f'{self.tipo_de_colonia} - {self.nombre}'
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['seccion'] = self.seccion.toJSON()
+        return item
+
+
     
